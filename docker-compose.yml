@@ -1,13 +1,15 @@
-version: '3'
+version: '3.7'
 
 services:
   db:
     image: postgres
-  web:
+  backend:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
     volumes: 
-      - .:/code
+      - type: bind
+        source: .
+        target: /backend
     ports:
       - "8000:8000"
     depends_on:
