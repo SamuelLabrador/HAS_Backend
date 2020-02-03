@@ -18,7 +18,7 @@ class Command(BaseCommand):
 			except Exception as e:
 				continue
 
-			image = CCTVImage.objects.create()
+			image = Image.objects.create()
 			
 			file_name = str(image.id) + '.png'
 			path = settings.STATIC_ROOT+'images/cctv/' + file_name
