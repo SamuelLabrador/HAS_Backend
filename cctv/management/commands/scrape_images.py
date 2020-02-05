@@ -39,6 +39,8 @@ class Command(BaseCommand):
 			try:
 				urllib.request.urlretrieve(url, path)
 				image.path = path
+				#added to associate cctv with photo
+				image.cctv = cctv
 				image.save()
 				
 			except Exception as e:

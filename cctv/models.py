@@ -27,6 +27,9 @@ class CCTV(models.Model):
 	image_url = models.CharField(max_length=255, blank=True, null=True)
 	stream_url = models.CharField(max_length=255, blank=True, null=True)
 
+	def __str__(self):
+		return self.location_name
+
 # History of image
 class Photo(models.Model):
 	cctv = models.ForeignKey(CCTV, null=True, on_delete=models.SET_NULL)
