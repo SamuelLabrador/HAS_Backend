@@ -17,10 +17,11 @@ from django.contrib import admin
 from django.urls import path, include
 
 from rest_framework import routers
-from restapp.views import CCTVViewSet
+from restapp.views import CCTVViewSet, PhotoViewSet
 
 router = routers.DefaultRouter()
 router.register('cctv',CCTVViewSet)
+router.register('photo',PhotoViewSet)
 
 urlpatterns = [
     path('api/',include(router.urls)),
