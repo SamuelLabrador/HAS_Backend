@@ -1,8 +1,8 @@
-from .models import Task
 from rest_framework import serializers
+from cctv.models import CCTV
 
-class TaskSerializers(serializers.ModelSerializer):
+class CCTVSerializers(serializers.ModelSerializer):
     class Meta:
-        model = Task
-        fields = ('id','task_name','task_desc')
+        model = CCTV
+        fields = ('id','longitude','latitude','route','image_url')
         

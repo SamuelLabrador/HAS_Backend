@@ -17,12 +17,12 @@ from django.contrib import admin
 from django.urls import path, include
 
 from rest_framework import routers
-from restapp.views import TaskViewSet
+from restapp.views import CCTVViewSet
 
 router = routers.DefaultRouter()
-router.register('task',TaskViewSet)
+router.register('cctv',CCTVViewSet)
 
 urlpatterns = [
-    path('rest/',include(router.urls)),
+    path('api/',include(router.urls)),
     path('admin/', admin.site.urls),
 ]

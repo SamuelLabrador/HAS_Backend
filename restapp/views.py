@@ -1,11 +1,11 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .serializers import TaskSerializers
-from .models import Task
+from .serializers import CCTVSerializers
+from cctv.models import CCTV
+
 # Create your views here.
 
-class TaskViewSet(viewsets.ModelViewSet):
+class CCTVViewSet(viewsets.ModelViewSet):
 
-    queryset = Task.objects.all().order_by('-date_created')
-    serializer_class = TaskSerializers
-    
+    queryset = CCTV.objects.all()
+    serializer_class = CCTVSerializers
