@@ -28,7 +28,7 @@ class CCTV(models.Model):
 	stream_url = models.CharField(max_length=255, blank=True, null=True)
 
 # History of image
-class Image(models.Model):
+class Photo(models.Model):
 	cctv = models.ForeignKey(CCTV, null=True, on_delete=models.SET_NULL)
 	path = models.CharField(max_length=255, null=True, blank=True)
 	timestamp = models.DateTimeField(auto_now_add=True)
