@@ -124,5 +124,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR,STATIC_URL) 
-
+STATIC_ROOT = '/var/www/has'
+IMAGE_ROOT = '/var/images'
+CCTV_ROOT = '/var/images/cctv'
