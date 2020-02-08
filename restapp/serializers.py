@@ -19,4 +19,4 @@ class SearchSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = Photo
-        fields = ('id','cctv','path','timestamp')
+        fields = ('id','cctv','file_name','timestamp')
