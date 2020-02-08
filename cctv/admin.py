@@ -8,6 +8,8 @@ class CCTVInline(admin.ModelAdmin):
 	model = CCTV
 	list_display = ('location_name', 'latitude', 'longitude', 'route', 'county',)
 
-
-admin.site.register(Photo)
+@admin.register(Photo)
+class PhotoInline(admin.ModelAdmin):
+	model = Photo
+	list_display = ('id', 'cctv', 'file_name', 'timestamp')
 
