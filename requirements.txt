@@ -3,3 +3,4 @@ djangorestframework==3.9.3
 psycopg2>=2.7,<3.0
 django-filter==2.2.0
 uwsgi
+gunicorn>=20.0.4
