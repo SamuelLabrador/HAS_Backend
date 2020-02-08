@@ -36,6 +36,10 @@ class CCTVUtilityTestCase(TestCase):
 				stream_url= 'URL-{}'.format(i),
 			)
 		
+	def tearDown(self):
+		for camera in CCTV.objects.all():
+			camera.delete()
+
 	def test_cctv_instantiation(self):
 		all_tvs = CCTV.objects.all()
 		
