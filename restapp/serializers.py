@@ -12,7 +12,7 @@ class PhotoSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = Photo
-        fields = ('id','cctv','path','timestamp')
+        fields = ('id','cctv','file_name','timestamp')
 
 class SearchSerializers(serializers.ModelSerializer):
     #cctv = serializers.CharField(source='cctv.image_url')
