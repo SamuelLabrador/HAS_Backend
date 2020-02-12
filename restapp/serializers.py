@@ -8,11 +8,12 @@ class CCTVSerializers(serializers.ModelSerializer):
 
 class PhotoSerializers(serializers.ModelSerializer):
     # we could just refer to cctv id, dont have to overwrite
-    cctv = serializers.CharField(source='cctv.image_url')
+    #image = serializers.CharField(source='cctv.image_url')
+    cctv = serializers.ReadOnlyField(source='cctv.image_url')
 
     class Meta:
         model = Photo
-        fields = ('id','cctv','path','timestamp')
+        fields = ('id','cctv','file_name','timestamp')
 
 class SearchSerializers(serializers.ModelSerializer):
     #cctv = serializers.CharField(source='cctv.image_url')

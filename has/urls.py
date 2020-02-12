@@ -15,7 +15,6 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-
 from rest_framework import routers
 from restapp.views import CCTVViewSet, PhotoViewSet, SearchViewSet
 
@@ -26,6 +25,6 @@ router.register('photo',PhotoViewSet)
 router.register('search',SearchViewSet,'search')
 
 urlpatterns = [
-    path('api/',include(router.urls)),
+    path('api/',include(router.urls,)),
     path('admin/', admin.site.urls),
 ]
