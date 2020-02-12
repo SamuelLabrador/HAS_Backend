@@ -21,10 +21,9 @@ from restapp.views import CCTVViewSet, PhotoViewSet, SearchViewSet
 router = routers.DefaultRouter()
 router.register('cctv',CCTVViewSet)
 router.register('photo',PhotoViewSet)
-#router.register('search',SearchViewSet)
 router.register('search',SearchViewSet,'search')
 
 urlpatterns = [
-    path('api/',include(router.urls,)),
+    path('api/', include(router.urls)),
     path('admin/', admin.site.urls),
 ]

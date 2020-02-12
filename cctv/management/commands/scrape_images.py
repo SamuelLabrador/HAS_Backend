@@ -38,11 +38,15 @@ class Command(BaseCommand):
 			
 			file_hash = generate_hash(image.id)
 			
+			size = len(file_hash) + len('.png')
 
-			path = generate_path(root, file_hash)
-			directory = path[0:-40]
-			print(directory)
+			path = generate_path(root, file_hash) + '.png'
+			directory = path[0:-size]
+
 			Path(directory).mkdir(parents=True, exist_ok=True)
+			
+			print(directory)
+			print(path)
 			
 			try:
 				urllib.request.urlretrieve(url, path)
