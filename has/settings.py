@@ -143,5 +143,6 @@ USE_TZ = True
 
 STATIC_ROOT = '/var/www/static'
 STATIC_URL = '/static/'
-IMAGE_ROOT = '/var/images'
-CCTV_ROOT = '/var/images/cctv'
+IMAGE_ROOT = '/var/www/static/images'
+
+CCTV_ROOT = '/var/www/static/cctv'
