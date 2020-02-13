@@ -47,4 +47,4 @@ def generate_path(root, file_hash):
 	
 def decode_path(root, file_hash):
 	dirs = file_hash[0:2] + '/' + file_hash[2:4] + '/'
-	return root + dirs + file_hash
+	return root + '/' + dirs + file_hash

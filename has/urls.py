@@ -15,8 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+
 from rest_framework import routers
 from restapp.views import CCTVViewSet, PhotoViewSet, SearchViewSet
+import cctv
 
 router = routers.DefaultRouter()
 router.register('cctv',CCTVViewSet)
@@ -26,4 +28,5 @@ router.register('search',SearchViewSet,'search')
 urlpatterns = [
     path('api/', include(router.urls)),
     path('admin/', admin.site.urls),
+    path('image/', include('cctv.urls')),
 ]

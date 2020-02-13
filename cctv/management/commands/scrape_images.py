@@ -23,7 +23,7 @@ class Command(BaseCommand):
 	def handle(self, *args, **options):
 		
 		# Get root from settings file
-		root = settings.CCTV_ROOT
+		root = settings.IMAGE_ROOT
 
 		for cctv in CCTV.objects.all():
 
