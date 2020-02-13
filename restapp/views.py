@@ -20,6 +20,7 @@ class PhotoViewSet(viewsets.ModelViewSet):
 
     queryset = Photo.objects.all()
     serializer_class = PhotoSerializers
+    pagination_class = StandardResultsSetPagination
 
 class SearchViewSet(viewsets.ModelViewSet):
     
