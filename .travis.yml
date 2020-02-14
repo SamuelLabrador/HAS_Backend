@@ -9,7 +9,9 @@ python:
 before_script: 
   - pip install docker-compose
   - docker-compose build --no-cache
-
+  - docker system prune -f
+  - docker volume prune -f
+  
 script:
   - docker-compose up -d
   - docker ps
