@@ -6,7 +6,9 @@ services:
 python:
   - "3.7"
 
-before_script: pip install docker-compose
+before_script: 
+  - pip install docker-compose
+  - docker-compose build --no-cache
 
 script:
   - docker-compose run backend sh -c "python manage.py test"
