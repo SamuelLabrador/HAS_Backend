@@ -11,5 +11,6 @@ before_script:
   - docker-compose build --no-cache
 
 script:
+  - docker-compose up -d
   - docker-compose run backend sh -c "python manage.py test"
   
