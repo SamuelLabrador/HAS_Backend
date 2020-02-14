@@ -12,5 +12,6 @@ before_script:
 
 script:
   - docker-compose up -d
-  - docker-compose run backend sh -c "python manage.py test"
+  - docker ps
+  - docker-compose run backend python manage.py test
   
