@@ -143,6 +143,5 @@ USE_TZ = True
 
 STATIC_ROOT = '/var/www/static'
 STATIC_URL = '/static/'
-IMAGE_ROOT = '/var/www/static/images'
 
-CCTV_ROOT = '/var/www/static/cctv'
+IMAGE_ROOT = os.path.join(STATIC_URL, 'cctv')
