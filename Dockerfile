@@ -7,9 +7,5 @@ RUN mkdir /backend -p -v
 WORKDIR /backend
 COPY . .
 
-RUN chmod 777 entrypoint.sh
-
 # Install requirements
 RUN pip install -r requirements.txt
-
-ENTRYPOINT ["/backend/entrypoint.sh"]
