@@ -16,3 +16,5 @@ services:
 
   db:
     image: postgres
+    restart: always
+    privileged: true
