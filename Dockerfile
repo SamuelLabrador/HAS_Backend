@@ -1,4 +1,4 @@
-FROM python:3.9.0a3-alpine3.10
+FROM python:3.7
 
 ENV PYTHONNINBUFFERED 1
 
@@ -7,10 +7,5 @@ RUN mkdir /backend -p -v
 WORKDIR /backend
 COPY . .
 
-RUN chmod +x ./wait-for
-
-# For psycopg2 pip package
-RUN apk update && apk add postgresql-dev gcc python3-dev musl-dev
-
 # Install requirements
-RUN pip3 install -r requirements.txt
+RUN pip install -r requirements.txt
