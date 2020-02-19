@@ -3,7 +3,8 @@ version: '3.3'
 services:
   backend:
     build: .
-    command: [ "./wait-for", "db:5432", "--", "python", "manage.py", "runserver", "0.0.0.0:8000"]
+    entrypoint: ["./wait-for", "db:5432", "--"]
+    command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
     volumes: 
       - type: bind
         source: .

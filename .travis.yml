@@ -9,11 +9,7 @@ python:
 before_script: 
   - pip install docker-compose
   - docker-compose build --no-cache
-  - docker system prune -f
-  - docker volume prune -f
 
 script:
-  - docker-compose up -d
-  - sleep 5
-  - docker-compose run backend python manage.py test
+  - docker-compose run backend python manage.py test --no-input
   
