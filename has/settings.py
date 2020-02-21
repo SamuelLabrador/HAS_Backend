@@ -36,11 +36,12 @@ if 'HAS_PRODUCTION' in os.environ:
     PRODUCTION_FLAG = bool(int(os.environ['HAS_PRODUCTION']))
 else: 
     PRODUCTION_FLAG = False
-
+print('PRODUCTION: ', PRODUCTION_FLAG)
 # SECURITY WARNING: don't run with debug turned on in production!
 if PRODUCTION_FLAG:
     DEBUG = False
     ALLOWED_HOSTS = [
+        'highwayanalytics.us',
         'http://highwayanalytics.us',
         'www.highwayanalytics.us',
     ]
@@ -151,8 +152,9 @@ USE_L10N = True
 
 USE_TZ = True
 
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
+# SESSION CONFIGURATION
+# SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True
 
 # CORS Configuration
 CORS_ORIGIN_ALLOW_ALL = True
@@ -166,7 +168,8 @@ CORS_ALLOW_METHODS = [
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_ROOT = '/var/www/static'
-STATIC_URL = '/static/'
+STATIC_ROOT = '/var/www/django-static'
+STATIC_URL = '/django-static/'
 
 IMAGE_ROOT = os.path.join(STATIC_URL, 'cctv')
+
