@@ -11,7 +11,7 @@ class CCTV(models.Model):
 	longitude = models.FloatField()
 	latitude = models.FloatField()
 	
-	elevation = models.IntegerField()
+	elevation = models.FloatField()
 	direction = models.CharField(max_length=255, blank=True, null=True)
 	county = models.CharField(max_length=255, blank=True, null=True)
 

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.conf import settings
 
 from .utilities import decode_path
@@ -15,6 +15,4 @@ def image(request):
 
 	path = decode_path(settings.IMAGE_ROOT, file_hash) + '.png'
 
-	response = HttpResponse()
-	response['X-Accel-Redirect'] = path 
-	return HttpResponse(path)
+	return HttpResponseRedirect(path)
