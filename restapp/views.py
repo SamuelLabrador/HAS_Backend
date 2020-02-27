@@ -18,8 +18,6 @@ class CCTVViewSet(viewsets.ModelViewSet):
     serializer_class = CCTVSerializers
     filter_backends = (DjangoFilterBackend, filters.SearchFilter)
     filter_class = CCTVFilter
-    #search_fields = ['=county',]
-    #filterset_fields = ['county',]
 
 class SearchViewSet(viewsets.ModelViewSet):
     
