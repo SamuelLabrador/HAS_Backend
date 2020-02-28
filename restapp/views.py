@@ -13,14 +13,26 @@ class StandardResultsSetPagination(PageNumberPagination):
     max_page_size = 1000
 
 class CCTVViewSet(viewsets.ModelViewSet):
-
-    queryset = CCTV.objects.all()
     serializer_class = CCTVSerializers
-    filter_backends = (DjangoFilterBackend, filters.SearchFilter)
-    filter_class = CCTVFilter
+    queryset = CCTV.objects.all()
+        
+    def get_queryset(self):
+        queryset = CCTV.objects.all()
+
+        county_param = self.request.query_params.get('county', None)
+
+        # Check if no county param is passed in
+        if county_param is None:
+            return queryset
+
+        elif ',' in county_param:
+            county_param = county_param.split(',')
+            return queryset.filter(county__in=county_param)
+        
+        return queryset.filter(county__exact=county_param)
+
 
 class SearchViewSet(viewsets.ModelViewSet):
-    
     queryset = Photo.objects.all().order_by('-timestamp')
     serializer_class = SearchSerializers
     filter_backends = (DjangoFilterBackend, filters.SearchFilter)

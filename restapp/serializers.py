@@ -4,7 +4,7 @@ from cctv.models import CCTV, Photo
 class CCTVSerializers(serializers.ModelSerializer):
     class Meta:
         model = CCTV
-        fields = ('id','longitude','latitude','route','image_url')
+        fields = ('id','longitude','latitude','route','image_url', 'county')
 
 class SearchSerializers(serializers.ModelSerializer):
     class Meta:
