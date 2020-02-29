@@ -35,3 +35,17 @@ class Photo(models.Model):
 	cctv = models.ForeignKey(CCTV, null=True, on_delete=models.SET_NULL)
 	file_name = models.CharField(max_length=255, null=True, blank=True)
 	timestamp = models.DateTimeField(auto_now_add=True)
+
+# Vehicle Classifications
+class Vehicle(models.Model):
+	cctv = models.ForeignKey(CCTV, null=True, on_delete=models.SET_NULL)
+	photo = models.ForeignKey(Photo, null=True, on_delete=models.SET_NULL)
+	
+	# Bounding Boxes
+	x_min = models.FloatField()
+	y_min = models.FloatField()
+	x_max = models.FloatField()
+	y_max = models.FloatField()
+
+	timestamp = models.DateTimeField(auto_now_add=True)
+	

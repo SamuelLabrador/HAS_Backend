@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'restapp',
     'cctv',
     'corsheaders',
+    'datapipeline',
 ]
 
 MIDDLEWARE = [

@@ -1,6 +1,5 @@
 from django.contrib import admin
-from cctv.models import CCTV, Photo
-
+from cctv.models import CCTV, Photo, Vehicle
 
 # Register your models here.
 @admin.register(CCTV)
@@ -13,3 +12,7 @@ class PhotoInline(admin.ModelAdmin):
 	model = Photo
 	list_display = ('id', 'cctv', 'file_name', 'timestamp')
 
+@admin.register(Vehicle)
+class VehicleInLine(admin.ModelAdmin):
+	model = Vehicle
+	list_display = ('id', 'cctv', 'photo', 'x_min', 'y_min','x_max', 'y_max', 'timestamp')
