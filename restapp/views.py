@@ -41,7 +41,7 @@ class SearchViewSet(viewsets.ModelViewSet):
 
 class VehicleViewSet(viewsets.ModelViewSet):
     queryset = Vehicle.objects.all().order_by('-timestamp')
-    serializer_class = VehicleSerializers
+    serializer_class = VehicleSerializers    
     filter_backends = (DjangoFilterBackend, filters.SearchFilter)
-    search_fields = ['=photo__id',]
+    filterset_fields = ['photo', 'cctv']
     pagination_class = StandardResultsSetPagination
