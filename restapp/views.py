@@ -2,8 +2,8 @@ from django.shortcuts import render
 from rest_framework import viewsets, filters
 from rest_framework.pagination import PageNumberPagination
 from django_filters.rest_framework import DjangoFilterBackend
-from .serializers import CCTVSerializers, SearchSerializers
-from cctv.models import CCTV,Photo
+from .serializers import CCTVSerializers, SearchSerializers, VehicleSerializers
+from cctv.models import CCTV,Photo,Vehicle
 from .filters import CCTVFilter
 
 # Create your views here.
@@ -37,4 +37,11 @@ class SearchViewSet(viewsets.ModelViewSet):
     serializer_class = SearchSerializers
     filter_backends = (DjangoFilterBackend, filters.SearchFilter)
     search_fields = ['=cctv__id',]
+    pagination_class = StandardResultsSetPagination
+
+class VehicleViewSet(viewsets.ModelViewSet):
+    queryset = Vehicle.objects.all().order_by('-timestamp')
+    serializer_class = VehicleSerializers    
+    filter_backends = (DjangoFilterBackend, filters.SearchFilter)
+    filterset_fields = ['photo', 'cctv']
     pagination_class = StandardResultsSetPagination
