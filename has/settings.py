@@ -168,9 +168,10 @@ CORS_ALLOW_METHODS = [
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
+ML_MODEL_ROOT = os.path.join(BASE_DIR, 'ml_models')
 
 STATIC_ROOT = '/var/www/django-static'
 STATIC_URL = '/django-static/'
 
-IMAGE_ROOT = os.path.join(STATIC_URL, 'cctv')
+IMAGE_ROOT = os.path.join(STATIC_ROOT, 'cctv_images')
 

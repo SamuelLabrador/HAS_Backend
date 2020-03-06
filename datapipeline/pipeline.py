@@ -17,6 +17,7 @@ class Pipeline():
 	def start(self):
 		saved_files = self.scrape_images()
 		self.classify_images(saved_files)
+
 	# Scrapes images
 	# Indexes each image into the database
 	# Derive file name for each image index
@@ -27,7 +28,12 @@ class Pipeline():
 
 		saved_files = []
 
-		for cctv in CCTV.objects.all().filter(county__in=['Riverside'])[:2]:
+		valid_counties = [
+			'San Bernardino',
+			'Riverside',
+		]
+
+		for cctv in CCTV.objects.all().filter(county__in=valid_counties):
 
 			url = cctv.image_url
 
@@ -40,14 +46,14 @@ class Pipeline():
 			
 			file_hash = generate_hash(image.id)
 			
-			size = len(file_hash) + len('.png')
+			size = len(file_hash) + len('.jpg')
 
 			path = generate_path(root, file_hash) + '.jpg'
 			
 			directory = path[0:-size]
 
 			Path(directory).mkdir(parents=True, exist_ok=True)
-			
+
 			try:
 				urllib.request.urlretrieve(url, path)
 				image.file_name = file_hash
@@ -61,7 +67,6 @@ class Pipeline():
 				}
 
 				saved_files.append(entry)
-				print("SAVING IMAGE")
 			except Exception as e:
 				print(e)
 				image.delete()
@@ -70,16 +75,25 @@ class Pipeline():
 		return saved_files
 
 	def classify_images(self, scrape_data):
-		print("CALSSIFYING IMAGES!")
-		url = "https://tfhub.dev/google/faster_rcnn/openimages_v4/inception_resnet_v2/1"
-		detector = hub.load(url).signatures['default']
+		tf.debugging.set_log_device_placement(True)
 
+		url = "https://tfhub.dev/google/faster_rcnn/openimages_v4/inception_resnet_v2/1"
+
+		with tf.device('/GPU:0'):
+			detector = hub.load(url).signatures['default']
+			
 		def load_img(path):
 			img = tf.io.read_file(path)
 			img = tf.image.decode_jpeg(img, channels=3)
 			return img
 
+		image_count = len(scrape_data)
+		count = 1
+		
 		for entry in scrape_data:
+			
+			count += 1
+
 			image_path = entry['path']
 			cctv_object = entry['cctv']
 			image_object = entry['image'] 
@@ -99,10 +113,10 @@ class Pipeline():
 				box = results['detection_boxes'][i]
 				score = results['detection_scores'][i]
 
-				y_min = box[0] * height
-				x_min = box[1] * width
-				y_max = box[2] * height
-				x_max = box[3] * width
+				y_min = box[0]
+				x_min = box[1]
+				y_max = box[2]
+				x_max = box[3] 
 
 				b = [x_max, y_max, x_min, y_min]
 
