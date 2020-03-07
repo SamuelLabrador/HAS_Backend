@@ -5,6 +5,11 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .serializers import CCTVSerializers, SearchSerializers, VehicleSerializers
 from cctv.models import CCTV,Photo,Vehicle
 from .filters import CCTVFilter
+from django.http import JsonResponse
+
+import string
+import json
+import re
 
 # Create your views here.
 class StandardResultsSetPagination(PageNumberPagination):
@@ -31,7 +36,6 @@ class CCTVViewSet(viewsets.ModelViewSet):
         
         return queryset.filter(county__exact=county_param)
 
-
 class SearchViewSet(viewsets.ModelViewSet):
     queryset = Photo.objects.all().order_by('-timestamp')
     serializer_class = SearchSerializers
@@ -45,3 +49,51 @@ class VehicleViewSet(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend, filters.SearchFilter)
     filterset_fields = ['photo', 'cctv']
     pagination_class = StandardResultsSetPagination
+
+def graphJSON(request):
+    valid_counties = [
+        'San Bernardino',
+        'Riverside'
+    ]
+    queryset = CCTV.objects.all().filter(county__in=valid_counties)
+    route_values = queryset.values('route').distinct()
+    
+
+    special_case = {
+        'SR-91': 'latitude'
+    }
+
+    routes = dict()
+
+    for route_set in route_values:
+        string_route = route_set['route']
+        route = string_route
+
+        if route in special_case:
+            direction = special_case[route]
+
+        else:
+            num = ''
+            for c in route:
+                if c.isdigit():
+                    num += c
+
+            num = int(num)
+            
+            if num % 2 == 0:
+                direction = 'longitude'
+            else:
+                direction = 'latitude'
+
+        cctvs = queryset.filter(route__exact=route).order_by(direction)
+
+        objects = []
+        for cctv in cctvs:
+            json_object = ({'latitude': (cctv.latitude), 'longitude': (cctv.longitude)})
+            objects.append(json_object)
+        routes[string_route] = objects
+
+    # routes = json.dumps(routes)
+    # print(routes)
+
+    return JsonResponse(routes, safe=False)

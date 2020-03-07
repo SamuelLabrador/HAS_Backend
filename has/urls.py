@@ -27,6 +27,7 @@ router.register('vehicle',VehicleViewSet)
 
 urlpatterns = [
     path('api/', include(router.urls)),
+    path('api/', include('restapp.urls')),
     path('admin/', admin.site.urls),
     path('image/', include('cctv.urls')),
 ]
