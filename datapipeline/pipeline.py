@@ -88,11 +88,8 @@ class Pipeline():
 			return img
 
 		image_count = len(scrape_data)
-		count = 1
 		
 		for entry in scrape_data:
-			
-			count += 1
 
 			image_path = entry['path']
 			cctv_object = entry['cctv']
@@ -106,6 +103,7 @@ class Pipeline():
 			result = detector(converted_img)
 			results = {key:value.numpy() for key, value in result.items()}
 
+			count = 0
 
 			# Extract Bounding  Box and classifications from result dictionary
 			for i in range(len(results['detection_boxes'])):
@@ -122,6 +120,7 @@ class Pipeline():
 
 				# Save to Database
 				if entity in [b'Car', b'Land Vehicle']:
+					count += 1
 					Vehicle.objects.create(
 						cctv=cctv_object,
 						photo=image_object,
@@ -130,3 +129,8 @@ class Pipeline():
 						x_max=x_max,
 						y_max=y_max,
 					)
+
+			image_object.vehicle_count = count
+			image_object.save()
+
+
