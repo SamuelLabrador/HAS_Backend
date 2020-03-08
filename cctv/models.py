@@ -36,6 +36,7 @@ class Photo(models.Model):
 	file_name = models.CharField(max_length=255, null=True, blank=True)
 	timestamp = models.DateTimeField(auto_now_add=True)
 	vehicle_count = models.IntegerField(null=True, blank=True)
+
 # Vehicle Classifications
 class Vehicle(models.Model):
 	cctv = models.ForeignKey(CCTV, null=True, on_delete=models.SET_NULL)
