@@ -13,6 +13,6 @@ def image(request):
 	hash_start = uri.rfind('/')
 	file_hash = uri[hash_start + 1:]
 
-	path = decode_path(settings.IMAGE_ROOT, file_hash) + '.png'
+	path = decode_path(settings.IMAGE_URL, file_hash) + '.jpg'
 
 	return HttpResponseRedirect(path)

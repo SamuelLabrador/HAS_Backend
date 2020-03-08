@@ -174,4 +174,4 @@ STATIC_ROOT = '/var/www/django-static'
 STATIC_URL = '/django-static/'
 
 IMAGE_ROOT = os.path.join(STATIC_ROOT, 'cctv_images')
-
+IMAGE_URL = os.path.join(STATIC_URL, 'cctv_images')
