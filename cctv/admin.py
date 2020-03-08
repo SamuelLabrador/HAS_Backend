@@ -10,7 +10,7 @@ class CCTVInline(admin.ModelAdmin):
 @admin.register(Photo)
 class PhotoInline(admin.ModelAdmin):
 	model = Photo
-	list_display = ('id', 'cctv', 'file_name', 'timestamp')
+	list_display = ('id', 'cctv', 'file_name', 'timestamp', 'vehicle_count')
 
 @admin.register(Vehicle)
 class VehicleInLine(admin.ModelAdmin):
