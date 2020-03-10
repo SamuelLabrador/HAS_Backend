@@ -6,6 +6,7 @@ from .serializers import CCTVSerializers, SearchSerializers, VehicleSerializers
 from cctv.models import CCTV,Photo,Vehicle
 from .filters import CCTVFilter
 from django.http import JsonResponse
+from django.utils import timezone
 
 import string
 import json
@@ -58,9 +59,8 @@ def graphJSON(request):
     queryset = CCTV.objects.all().filter(county__in=valid_counties)
     route_values = queryset.values('route').distinct()
     
-
     special_case = {
-        'SR-91': 'latitude'
+        'SR-91': 'longitude'
     }
 
     routes = dict()
@@ -97,3 +97,35 @@ def graphJSON(request):
     # print(routes)
 
     return JsonResponse(routes, safe=False)
+
+def routeVehicleCount(request):
+    valid_counties = [
+        'San Bernardino',
+        'Riverside'
+    ]
+    objects = CCTV.objects.all().filter(county__in=valid_counties)
+    objects = objects.values('route').distinct()
+    target_timezone = timezone.now() - timezone.timedelta(days=1)
+    
+    routes = {}
+    for meta in objects:
+        route = meta['route']
+
+        cctvs = CCTV.objects.all().filter(route__exact=route)
+ 
+        count = Vehicle.objects.all().filter(cctv__in=cctvs)
+        count = count.filter(timestamp__gt=target_timezone)
+        count = count.count()
+
+        routes[route] = count
+
+    return JsonResponse(routes, safe=False)
+
+def totalVehicle(request):
+    count = Vehicle.objects.all().count()
+
+    total = {
+        'count' : count
+    }
+
+    return JsonResponse(total, safe=False)
