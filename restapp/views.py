@@ -89,12 +89,13 @@ def graphJSON(request):
 
         objects = []
         for cctv in cctvs:
-            json_object = ({'latitude': (cctv.latitude), 'longitude': (cctv.longitude)})
+            json_object = {
+            	'cctv_id': (cctv.id),
+            	'latitude': (cctv.latitude), 
+            	'longitude': (cctv.longitude),
+            }
             objects.append(json_object)
         routes[string_route] = objects
-
-    # routes = json.dumps(routes)
-    # print(routes)
 
     return JsonResponse(routes, safe=False)
 
@@ -103,6 +104,7 @@ def routeVehicleCount(request):
         'San Bernardino',
         'Riverside'
     ]
+    
     objects = CCTV.objects.all().filter(county__in=valid_counties)
     objects = objects.values('route').distinct()
     target_timezone = timezone.now() - timezone.timedelta(days=1)
