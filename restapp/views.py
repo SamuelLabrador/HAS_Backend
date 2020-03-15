@@ -7,6 +7,7 @@ from cctv.models import CCTV,Photo,Vehicle
 from .filters import CCTVFilter
 from django.http import JsonResponse
 from django.utils import timezone
+from django.conf import settings
 
 import string
 import json
@@ -52,11 +53,8 @@ class VehicleViewSet(viewsets.ModelViewSet):
     pagination_class = StandardResultsSetPagination
 
 def graphJSON(request):
-    valid_counties = [
-        'San Bernardino',
-        'Riverside'
-    ]
-    queryset = CCTV.objects.all().filter(county__in=valid_counties)
+
+    queryset = CCTV.objects.all().filter(county__in=settings.VALID_COUNTIES)
     route_values = queryset.values('route').distinct()
     
     special_case = {
@@ -100,12 +98,8 @@ def graphJSON(request):
     return JsonResponse(routes, safe=False)
 
 def routeVehicleCount(request):
-    valid_counties = [
-        'San Bernardino',
-        'Riverside'
-    ]
     
-    objects = CCTV.objects.all().filter(county__in=valid_counties)
+    objects = CCTV.objects.all().filter(county__in=settings.VALID_COUNTIES)
     objects = objects.values('route').distinct()
     target_timezone = timezone.now() - timezone.timedelta(days=1)
     
@@ -131,3 +125,26 @@ def totalVehicle(request):
     }
 
     return JsonResponse(total, safe=False)
+
+def vehiclesPerHour(request):
+	now = timezone.now()
+	
+	route_values = CCTV.objects.all().filter(county__in=settings.VALID_COUNTIES)
+	route_values = [i['route'] for i in route_values.values('route').distinct()]
+
+	data = {}
+
+	for route in route_values:
+		counts = []
+		for i in range(24, 0, -1):
+			start = now - timezone.timedelta(hours=i)
+			end = start + timezone.timedelta(hours=1)
+
+			photos = Photo.objects.all().filter(timestamp__gte=start).filter(timestamp__lt=end)
+
+			counts.append(Vehicle.objects.all().filter(photo__in=photos).count())
+
+		data[route] = counts
+
+	return JsonResponse(data, safe=False)
+

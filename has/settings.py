@@ -103,12 +103,13 @@ WSGI_APPLICATION = 'has.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 
-if PRODUCTION_FLAG:
+if not PRODUCTION_FLAG:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': 'postgres',
             'USER': 'postgres',
+            'PASSWORD' : 'password',
             'HOST': 'db',
             'PORT': 5432,
         }
@@ -175,3 +176,9 @@ STATIC_URL = '/django-static/'
 
 IMAGE_ROOT = os.path.join(STATIC_ROOT, 'cctv_images')
 IMAGE_URL = os.path.join(STATIC_URL, 'cctv_images')
+
+# SITE SETTINGS
+VALID_COUNTIES = [
+    'Riverside',
+    'San Bernardino',
+]
