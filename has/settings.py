@@ -36,6 +36,7 @@ if 'HAS_PRODUCTION' in os.environ:
     PRODUCTION_FLAG = bool(int(os.environ['HAS_PRODUCTION']))
 else: 
     PRODUCTION_FLAG = False
+
 print('PRODUCTION: ', PRODUCTION_FLAG)
 # SECURITY WARNING: don't run with debug turned on in production!
 if PRODUCTION_FLAG:
@@ -103,7 +104,7 @@ WSGI_APPLICATION = 'has.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 
-if not PRODUCTION_FLAG:
+if PRODUCTION_FLAG:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
@@ -154,6 +155,10 @@ USE_L10N = True
 
 USE_TZ = True
 
+VALID_COUNTIES = [
+    'Riverside',
+    'San Bernardino',
+]
 # SESSION CONFIGURATION
 # SESSION_COOKIE_SECURE = True
 # CSRF_COOKIE_SECURE = True
@@ -178,7 +183,3 @@ IMAGE_ROOT = os.path.join(STATIC_ROOT, 'cctv_images')
 IMAGE_URL = os.path.join(STATIC_URL, 'cctv_images')
 
 # SITE SETTINGS
-VALID_COUNTIES = [
-    'Riverside',
-    'San Bernardino',
-]
