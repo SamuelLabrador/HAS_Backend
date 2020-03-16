@@ -7,4 +7,5 @@ urlpatterns = [
 	path('routeVehicleCount', views.routeVehicleCount, name='routeVehicleCount'),
 	path('totalVehicle', views.totalVehicle, name='totalVehicle'),
 	path('vehiclesPerHour', views.vehiclesPerHour, name='vehiclesPerHour'),
+	path('vehiclesPerCCTV', views.vehiclesPerCCTV, name='vehiclesPerCCTV'),
 ]

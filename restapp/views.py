@@ -148,3 +148,20 @@ def vehiclesPerHour(request):
 
 	return JsonResponse(data, safe=False)
 
+def vehiclesPerCCTV(request):
+    valid_counties = [
+        'San Bernardino',
+        'Riverside'
+    ]
+
+    objects = CCTV.objects.all().filter(county__in=valid_counties)
+    
+    routes = {}
+    #routes_list = []
+    for meta in objects:
+        count = Vehicle.objects.all().filter(cctv__exact=meta)
+        count = count.count()
+        routes[meta.id] = count
+        #routes_list.append({meta.id : count})
+
+    return JsonResponse(routes, safe=False)
