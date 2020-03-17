@@ -156,7 +156,7 @@ def vehiclesPerCCTV(request):
         'Riverside'
     ]
 
-    objects = CCTV.objects.all().filter(county__in=valid_counties)
+    objects = CCTV.objects.all().filter(county__in=settings.VALID_COUNTIES)
     
     routes = {}
     #routes_list = []
@@ -167,3 +167,23 @@ def vehiclesPerCCTV(request):
         #routes_list.append({meta.id : count})
 
     return JsonResponse(routes, safe=False)
+
+'''
+	[
+		cctv_id : xxx,
+		car_count: xxx
+	],
+'''
+def trafficData(request):
+	data = []
+	for cctv in CCTV.objects.all().filter(county__in=settings.VALID_COUNTIES):
+
+		candiates = Photo.objects.all().filter(cctv__exact=cctv).order_by('-id')
+
+		if candiates.count() > 0:
+			data.append({
+				'cctv_id' : cctv.id,
+				'car_count' : Photo.objects.all().filter(cctv__exact=cctv).order_by('-timestamp')[0].vehicle_count			
+			})
+	
+	return JsonResponse(data, safe=False)

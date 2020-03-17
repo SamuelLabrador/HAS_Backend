@@ -8,4 +8,5 @@ urlpatterns = [
 	path('totalVehicle', views.totalVehicle, name='totalVehicle'),
 	path('vehiclesPerHour', views.vehiclesPerHour, name='vehiclesPerHour'),
 	path('vehiclesPerCCTV', views.vehiclesPerCCTV, name='vehiclesPerCCTV'),
+	path('trafficData', views.trafficData, name='trafficData'),
 ]
