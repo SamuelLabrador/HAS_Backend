@@ -192,4 +192,4 @@ def trafficData(request):
 				'car_count' : count
 			})
 	
-	return JsonResponse(data, safe=False
+	return JsonResponse(data, safe=False)
