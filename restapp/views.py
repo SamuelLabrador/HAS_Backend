@@ -130,17 +130,19 @@ def vehiclesPerHour(request):
 	now = timezone.now()
 	
 	route_values = CCTV.objects.all().filter(county__in=settings.VALID_COUNTIES)
-	route_values = [i['route'] for i in route_values.values('route').distinct()]
+	route_values = [i for i in route_values.values('route').distinct()]
 
 	data = {}
 
-	for route in route_values:
+	for tup in route_values:
+		route = tup['route']
 		counts = []
 		for i in range(24, 0, -1):
 			start = now - timezone.timedelta(hours=i)
 			end = start + timezone.timedelta(hours=1)
 
-			photos = Photo.objects.all().filter(timestamp__gte=start).filter(timestamp__lt=end)
+			cctvs = CCTV.objects.all().filter(route__exact=route)
+			photos = Photo.objects.all().filter(timestamp__gte=start).filter(timestamp__lt=end).filter(cctv__in=cctvs)
 
 			counts.append(Vehicle.objects.all().filter(photo__in=photos).count())
 
