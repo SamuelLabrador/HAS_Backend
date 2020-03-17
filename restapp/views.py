@@ -157,11 +157,13 @@ def vehiclesPerCCTV(request):
     ]
 
     objects = CCTV.objects.all().filter(county__in=valid_counties)
-    
+    target_timezone = timezone.now() - timezone.timedelta(days=1)
+
     routes = {}
     #routes_list = []
     for meta in objects:
         count = Vehicle.objects.all().filter(cctv__exact=meta)
+        count = count.filter(timestamp__gt=target_timezone)
         count = count.count()
         routes[meta.id] = count
         #routes_list.append({meta.id : count})
