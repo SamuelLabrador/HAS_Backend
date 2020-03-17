@@ -184,9 +184,12 @@ def trafficData(request):
 		candiates = Photo.objects.all().filter(cctv__exact=cctv).order_by('-id')
 
 		if candiates.count() > 0:
+			count = Photo.objects.all().filter(cctv__exact=cctv).order_by('-timestamp')[1].vehicle_count
+			if count == None:
+				count = Photo.objects.all().filter(cctv__exact=cctv).order_by('-timestamp')[1].vehicle_count
 			data.append({
 				'cctv_id' : cctv.id,
-				'car_count' : Photo.objects.all().filter(cctv__exact=cctv).order_by('-timestamp')[0].vehicle_count			
+				'car_count' : count
 			})
 	
-	return JsonResponse(data, safe=False)
+	return JsonResponse(data, safe=False
