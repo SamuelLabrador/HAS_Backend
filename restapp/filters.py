@@ -2,7 +2,7 @@ import django_filters
 from django_filters import rest_framework as filters
 from django_filters.fields import Lookup
 
-from cctv.models import CCTV
+from cctv.models import *
 
 # class MultiValueCharFilter(filters.CharFilter):
 #     def filter(self, qs, value):
@@ -16,11 +16,13 @@ from cctv.models import CCTV
 #         return qs
 
 class CCTVFilter(django_filters.FilterSet):
-
     class Meta:
         model = CCTV
         fields = ['county',]
 
+class VehicleFilter(django_filters.FilterSet)
+	class Meta:
+		model = Vehicle
     
 # class ListFilter(Filter):
 #     def filter(self, qs, value):

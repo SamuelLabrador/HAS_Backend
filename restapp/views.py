@@ -1,13 +1,16 @@
 from django.shortcuts import render
-from rest_framework import viewsets, filters
-from rest_framework.pagination import PageNumberPagination
-from django_filters.rest_framework import DjangoFilterBackend
-from .serializers import CCTVSerializers, SearchSerializers, VehicleSerializers
-from cctv.models import CCTV,Photo,Vehicle
-from .filters import CCTVFilter
 from django.http import JsonResponse
 from django.utils import timezone
 from django.conf import settings
+
+from rest_framework import viewsets, filters
+from rest_framework.pagination import PageNumberPagination
+from rest_framework.views import generics
+from django_filters.rest_framework import DjangoFilterBackend
+
+from .serializers import *
+from cctv.models import CCTV,Photo,Vehicle
+from .filters import CCTVFilter
 
 import string
 import json
@@ -40,17 +43,18 @@ class CCTVViewSet(viewsets.ModelViewSet):
 
 class SearchViewSet(viewsets.ModelViewSet):
     queryset = Photo.objects.all().order_by('-timestamp')
-    serializer_class = SearchSerializers
+    serializer_class = PhotoSerializer
     filter_backends = (DjangoFilterBackend, filters.SearchFilter)
     search_fields = ['=cctv__id',]
     pagination_class = StandardResultsSetPagination
 
-class VehicleViewSet(viewsets.ModelViewSet):
-    queryset = Vehicle.objects.all().order_by('-timestamp')
+class VehicleList(generics.ListAPIView):
     serializer_class = VehicleSerializers    
-    filter_backends = (DjangoFilterBackend, filters.SearchFilter)
-    filterset_fields = ['photo', 'cctv']
-    pagination_class = StandardResultsSetPagination
+
+    def get_queryset(self):
+        file_name = self.kwargs['file_name']
+        photo = Photo.objects.get(file_name=file_name)
+        return Vehicle.objects.filter(photo__exact=photo)
 
 def graphJSON(request):
 
@@ -177,6 +181,7 @@ def vehiclesPerCCTV(request):
 		car_count: xxx
 	],
 '''
+
 def trafficData(request):
 	data = []
 	for cctv in CCTV.objects.all().filter(county__in=settings.VALID_COUNTIES):
@@ -184,12 +189,14 @@ def trafficData(request):
 		candiates = Photo.objects.all().filter(cctv__exact=cctv).order_by('-id')
 
 		if candiates.count() > 0:
-			count = Photo.objects.all().filter(cctv__exact=cctv).order_by('-timestamp')[1].vehicle_count
-			if count == None:
-				count = Photo.objects.all().filter(cctv__exact=cctv).order_by('-timestamp')[1].vehicle_count
+			photo = Photo.objects.all().filter(cctv__exact=cctv).order_by('-timestamp')[0]
+			if photo.vehicle_count == None:
+				photo = Photo.objects.all().filter(cctv__exact=cctv).order_by('-timestamp')[1]
 			data.append({
 				'cctv_id' : cctv.id,
-				'car_count' : count
+				'car_count' : photo.vehicle_count,
 			})
 	
 	return JsonResponse(data, safe=False)
+
+
