@@ -3,9 +3,8 @@ from django.http import JsonResponse
 from django.utils import timezone
 from django.conf import settings
 
-from rest_framework import viewsets, filters
+from rest_framework import viewsets, filters, generics
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.views import generics
 from django_filters.rest_framework import DjangoFilterBackend
 
 from .serializers import *
@@ -48,13 +47,17 @@ class SearchViewSet(viewsets.ModelViewSet):
     search_fields = ['=cctv__id',]
     pagination_class = StandardResultsSetPagination
 
-class VehicleList(generics.ListAPIView):
-    serializer_class = VehicleSerializers    
+class VehicleViewSet(viewsets.ModelViewSet):
+    """
+    Pass in the image file_name.
+    Return Corresponding bounding boxes.
+    """
+    queryset = Vehicle.objects.all().order_by('-timestamp')
+    serializer_class = VehicleSerializers 
+    filter_backends = (filters.SearchFilter, )
+    search_fields = ['photo__file_name']
+    pagination_class = StandardResultsSetPagination
 
-    def get_queryset(self):
-        file_name = self.kwargs['file_name']
-        photo = Photo.objects.get(file_name=file_name)
-        return Vehicle.objects.filter(photo__exact=photo)
 
 def graphJSON(request):
 

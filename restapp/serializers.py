@@ -12,8 +12,8 @@ class PhotoSerializer(serializers.ModelSerializer):
         fields = ('id','cctv','file_name','timestamp')
 
 class VehicleSerializers(serializers.ModelSerializer):
-	file_name = serializers.RelateField(source='photo', read_only=True)
-    
+    file_name = serializers.StringRelatedField(source='photo.file_name', read_only=True)
+
     class Meta:
         model = Vehicle
-        fields = ('id','cctv','file_name','x_min','y_min','x_max','y_max')
+        fields = ('id', 'timestamp','file_name','x_min','y_min','x_max','y_max',)
