@@ -47,7 +47,7 @@ class CCTVViewSet(viewsets.ModelViewSet):
         return queryset.filter(county__exact=county_param)
 
 class SearchViewSet(viewsets.ModelViewSet):
-    queryset = Photo.objects.all().order_by('-timestamp')
+    queryset = Photo.objects.all().filter(vehicle_count__isnull=False).order_by('-timestamp')
     serializer_class = PhotoSerializer
     filter_backends = (DjangoFilterBackend, filters.SearchFilter)
     search_fields = ['=cctv__id',]
