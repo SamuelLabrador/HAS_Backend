@@ -21,6 +21,12 @@ class StandardResultsSetPagination(PageNumberPagination):
     page_size_query_param = 'page_size'
     max_page_size = 1000
 
+    # Create your views here.
+class MediumResultsSetPagination(PageNumberPagination):
+    page_size = 25
+    page_size_query_param = 'page_size'
+    max_page_size = 1000
+
 class CCTVViewSet(viewsets.ModelViewSet):
     serializer_class = CCTVSerializers
     queryset = CCTV.objects.all()
@@ -56,7 +62,7 @@ class VehicleViewSet(viewsets.ModelViewSet):
     serializer_class = VehicleSerializers 
     filter_backends = (filters.SearchFilter, )
     search_fields = ['photo__file_name']
-    pagination_class = StandardResultsSetPagination
+    pagination_class = MediumResultsSetPagination
 
 
 def graphJSON(request):
