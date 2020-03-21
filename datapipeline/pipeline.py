@@ -129,7 +129,7 @@ class Pipeline():
 						x_max=x_max,
 						y_max=y_max,
 						probability=score,
-						label=entity,
+						label=entity.decode(),
 					)
 
 			image_object.vehicle_count = count
