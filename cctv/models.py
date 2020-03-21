@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.postgres.fields import ArrayField
 # Create your models here.
 
 # Physical Device Information
@@ -41,7 +41,9 @@ class Photo(models.Model):
 class Vehicle(models.Model):
 	cctv = models.ForeignKey(CCTV, null=True, on_delete=models.SET_NULL)
 	photo = models.ForeignKey(Photo, null=True, on_delete=models.SET_NULL)
-	
+	label = models.CharField(max_length=255, null=True, blank=True)
+	probability = models.FloatField(null=True, blank=True)
+
 	# Bounding Boxes
 	x_min = models.FloatField()
 	y_min = models.FloatField()
@@ -49,4 +51,3 @@ class Vehicle(models.Model):
 	y_max = models.FloatField()
 
 	timestamp = models.DateTimeField(auto_now_add=True)
-	

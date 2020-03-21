@@ -128,6 +128,8 @@ class Pipeline():
 						y_min=y_min,
 						x_max=x_max,
 						y_max=y_max,
+						probability=score,
+						label=entity,
 					)
 
 			image_object.vehicle_count = count
