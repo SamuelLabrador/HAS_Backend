@@ -1,17 +1,21 @@
-sudo: true
-
 language: python
-
-services:
-  - docker
 
 python:
   - "3.7"
 
-before_script: 
-  - pip install docker-compose
-  - docker-compose build
 
-script:
-  - docker-compose run backend python manage.py test --no-input
+# TODO: Build better testing platform.
+# ADD DATABASE FIXTURES.
+# SET UP NECESSARY DEPENDENCIES.
+
+# sudo: true
+# services:
+#   - docker
+
+# before_script: 
+  # - pip install docker-compose
+  # - docker-compose build
+
+# script:
+  # - docker-compose run backend python manage.py test --no-input
   
