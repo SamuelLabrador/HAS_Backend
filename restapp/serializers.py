@@ -16,4 +16,14 @@ class VehicleSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = Vehicle
-        fields = ('id', 'timestamp','file_name','x_min','y_min','x_max','y_max',)
+        fields = (
+            'id', 
+            'timestamp',
+            'file_name',
+            'x_min',
+            'y_min',
+            'x_max',
+            'y_max',
+            'label',
+            'probability',
+        )
