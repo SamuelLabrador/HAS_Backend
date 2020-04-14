@@ -8,6 +8,7 @@ from .filters import CCTVFilter
 from django.http import JsonResponse
 from django.utils import timezone
 from django.conf import settings
+from django.views.decorators.cache import cache_page
 
 import string
 import json
@@ -19,6 +20,7 @@ class StandardResultsSetPagination(PageNumberPagination):
     page_size_query_param = 'page_size'
     max_page_size = 1000
 
+@cache_page(60 * 60 * 24)
 class CCTVViewSet(viewsets.ModelViewSet):
     serializer_class = CCTVSerializers
     queryset = CCTV.objects.all()
@@ -97,6 +99,10 @@ def graphJSON(request):
 
     return JsonResponse(routes, safe=False)
 
+'''
+This API counts the amount of cars on each route
+Should be cached to minimze load on server. Updates every ~15 minutes. 
+'''
 def routeVehicleCount(request):
     
     objects = CCTV.objects.all().filter(county__in=settings.VALID_COUNTIES)
@@ -117,6 +123,9 @@ def routeVehicleCount(request):
 
     return JsonResponse(routes, safe=False)
 
+'''
+Returns total amount of vehicle objects in the database
+'''
 def totalVehicle(request):
     count = Vehicle.objects.all().count()
 
@@ -126,6 +135,9 @@ def totalVehicle(request):
 
     return JsonResponse(total, safe=False)
 
+'''
+
+'''
 def vehiclesPerHour(request):
 	now = timezone.now()
 	
