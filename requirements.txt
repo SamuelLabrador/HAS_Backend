@@ -8,3 +8,4 @@ Pillow>=2.2.2
 tensorflow==2.1.0
 tensorflow-gpu==2.1.0
 tensorflow-hub>=0.7.0
+python-memcached>=1.59

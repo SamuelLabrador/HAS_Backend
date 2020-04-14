@@ -8,7 +8,10 @@ from .filters import CCTVFilter
 from django.http import JsonResponse
 from django.utils import timezone
 from django.conf import settings
+
+# Caching methods
 from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 
 import string
 import json
@@ -20,11 +23,11 @@ class StandardResultsSetPagination(PageNumberPagination):
     page_size_query_param = 'page_size'
     max_page_size = 1000
 
-@cache_page(60 * 60 * 24)
 class CCTVViewSet(viewsets.ModelViewSet):
     serializer_class = CCTVSerializers
     queryset = CCTV.objects.all()
         
+    @method_decorator(cache_page(60 * 60 * 24))
     def get_queryset(self):
         queryset = CCTV.objects.all()
 
