@@ -57,7 +57,7 @@ class VehicleViewSet(viewsets.ModelViewSet):
     serializer_class = VehicleSerializers    
     filter_backends = (DjangoFilterBackend, filters.SearchFilter)
     filterset_fields = ['photo', 'cctv']
-    pagination_class = StandardResultsSetPagination
+    pagination_class = MediumResultsSetPagination
 
 def graphJSON(request):
 
