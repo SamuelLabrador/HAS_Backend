@@ -28,15 +28,26 @@ class RestAppTestCase(TestCase):
 		self.assertEqual(self.v.get(id=1).cctv, self.c.get(id=1))
 		self.assertEqual(self.v.get(id=1).photo, self.p.get(id=1))
 
+	'''
+	Test checks total vehicle api endpoint
+	'''
 	def testTotalVehicle(self):
-		# Test that api returns proper value
 		response = self.client.get('/api/totalVehicle')
 		self.assertEqual(response.json()['count'], 3)
 
+	'''
+	Test checks validity of data returned from vehicle api endpoint
+	'''
 	def testVehicleViewSet(self):
 		def helper(cctv_id):
 			response = self.client.get('/api/vehicle/?format=json&cctv={}'.format(cctv_id))
 			vehicles = response.json()['results']
 			for v in vehicles:
 				self.assertEqual(v['cctv'], cctv_id)
-			
+		
+		# Test both functions
+		helper(1)
+		helper(2)
+
+		# Response should not be cached
+		helper(1)
