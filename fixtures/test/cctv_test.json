@@ -1,0 +1,24 @@
+[
+    {
+        "model" : "cctv.cctv",
+        "pk" : 1,
+        "fields" : {
+            "district" : 8,
+            "latitude" : 33.92951,
+            "longitude" : -117.28911,
+            "elevation" : 200,
+            "route" : "I-210"
+        }
+    },
+    {
+        "model" : "cctv.cctv",
+        "pk" : 2,
+        "fields" : {
+            "district" : 8,
+            "latitude" : 34.24872,
+            "longitude" : -117.44142,
+            "elevation" : 300,
+            "route" : "I-15"
+        }
+    }
+]

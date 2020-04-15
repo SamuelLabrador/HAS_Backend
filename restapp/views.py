@@ -101,6 +101,8 @@ def graphJSON(request):
 '''
 This API counts the amount of cars on each route
 Should be cached to minimze load on server. Updates every ~15 minutes. 
+
+TODO: Add ability to pass in specified interval.
 '''
 def routeVehicleCount(request):
     
@@ -135,7 +137,9 @@ def totalVehicle(request):
     return JsonResponse(total, safe=False)
 
 '''
+This request gets the total amount of vehicles from the previous hour. 
 
+TODO: Use rounded hours. ie current time == 2:30, then range(1:00 - 2:00)
 '''
 def vehiclesPerHour(request):
 	now = timezone.now()
@@ -167,7 +171,6 @@ def vehiclesPerCCTV(request):
         'Riverside'
     ]
 
-    
     objects = CCTV.objects.all().filter(county__in=valid_counties)
     target_timezone = timezone.now() - timezone.timedelta(days=1)
 

@@ -1,26 +1,42 @@
 from django.test import TestCase
 from rest_framework.test import APIRequestFactory
+from django.test import Client
 
 import json
-from cctv.models import *
+from cctv.models import CCTV, Photo, Vehicle
 
 # Create your tests here.
 
 class RestAppTestCase(TestCase):
+	fixtures = [
+		'test/cctv_test.json',
+		'test/photo_test.json',
+		'test/vehicle_test.json'
+	]
+
 	def setUp(self):
-		CCTV.objects.create(
-			district=1,
-			longitude=1,
-			latitude=1,
-			elevation=1,
-		)
+		# Initialize Client
+		self.clients = Client()
 
-	def test_request(self):
-		factory = APIRequestFactory()
-		response = self.client.get('/api/cctv/')
+		# Load objects into models.
+		self.c = CCTV.objects.all()
+		self.p = Photo.objects.all()
+		self.v = Vehicle.objects.all()
 
-		cctv = json.loads(json.dumps(response.data))[0]
-		
-		self.assertTrue(cctv['latitude'] == 1)
-		self.assertTrue(cctv['longitude'] == 1)
-		
+		# Validate fixtures have been loaded properly
+		self.assertEqual(self.c.get(id=1), self.p.get(id=1).cctv, msg="Photo.cctv must be equal to corresponding cctv object")
+		self.assertEqual(self.v.get(id=1).cctv, self.c.get(id=1))
+		self.assertEqual(self.v.get(id=1).photo, self.p.get(id=1))
+
+	def testTotalVehicle(self):
+		# Test that api returns proper value
+		response = self.client.get('/api/totalVehicle')
+		self.assertEqual(response.json()['count'], 3)
+
+	def testVehicleViewSet(self):
+		def helper(cctv_id):
+			response = self.client.get('/api/vehicle/?format=json&cctv={}'.format(cctv_id))
+			vehicles = response.json()['results']
+			for v in vehicles:
+				self.assertEqual(v['cctv'], cctv_id)
+			

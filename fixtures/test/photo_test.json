@@ -1,0 +1,22 @@
+[
+    {
+        "model" : "cctv.photo",
+        "pk" : 1,
+        "fields" : {
+            "cctv" : 1,
+            "file_name" : "0",
+            "timestamp" : "2012-04-23T18:25:43.511Z",
+            "vehicle_count" : 2
+        }
+    },
+    {
+        "model" : "cctv.photo",
+        "pk" : 2,
+        "fields" : {
+            "cctv" : 2,
+            "file_name" : "0",
+            "timestamp" : "2012-04-23T18:25:43.511Z",
+            "vehicle_count" : 1
+        }
+    }
+]

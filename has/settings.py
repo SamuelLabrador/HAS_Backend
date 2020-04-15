@@ -50,6 +50,10 @@ else:
     DEBUG = True
     ALLOWED_HOSTS = ['*']
 
+FIXTURE_DIRS = [
+    os.path.join(BASE_DIR, 'fixtures')
+]
+
 
 # Application definition
 
@@ -192,5 +196,3 @@ STATIC_URL = '/django-static/'
 
 IMAGE_ROOT = os.path.join(STATIC_ROOT, 'cctv_images')
 IMAGE_URL = os.path.join(STATIC_URL, 'cctv_images')
-
-# SITE SETTINGS
