@@ -20,6 +20,12 @@ class StandardResultsSetPagination(PageNumberPagination):
     page_size_query_param = 'page_size'
     max_page_size = 1000
 
+class MediumResultsSetPagination(PageNumberPagination):
+    page_size = 50
+    page_size_query_param = 'page_size'
+    max_page_size = 1000
+
+
 class CCTVViewSet(viewsets.ModelViewSet):
     serializer_class = CCTVSerializers
     queryset = CCTV.objects.all()
@@ -44,7 +50,7 @@ class SearchViewSet(viewsets.ModelViewSet):
     serializer_class = SearchSerializers
     filter_backends = (DjangoFilterBackend, filters.SearchFilter)
     search_fields = ['=cctv__id',]
-    pagination_class = StandardResultsSetPagination
+    pagination_class = MediumResultsSetPagination
 
 class VehicleViewSet(viewsets.ModelViewSet):
     queryset = Vehicle.objects.all().order_by('-timestamp')
