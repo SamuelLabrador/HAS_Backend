@@ -158,6 +158,7 @@ VALID_COUNTIES = [
     'Riverside',
     'San Bernardino',
 ]
+
 # SESSION CONFIGURATION
 # SESSION_COOKIE_SECURE = True
 # CSRF_COOKIE_SECURE = True
