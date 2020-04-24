@@ -65,7 +65,6 @@ INSTALLED_APPS = [
     'restapp',
     'cctv',
     'corsheaders',
-    'datapipeline',
 ]
 
 MIDDLEWARE = [
@@ -108,10 +107,10 @@ if PRODUCTION_FLAG:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'postgres',
-            'USER': 'postgres',
-            'PASSWORD' : 'password',
-            'HOST': 'db',
+            'NAME': os.environ['DB_NAME'],
+            'USER': os.environ['DB_USER'],
+            'PASSWORD' : os.environ['DB_PASSWORD'],
+            'HOST': os.environ['DB_HOST'],
             'PORT': 5432,
         }
     }
@@ -181,5 +180,3 @@ STATIC_URL = '/django-static/'
 
 IMAGE_ROOT = os.path.join(STATIC_ROOT, 'cctv_images')
 IMAGE_URL = os.path.join(STATIC_URL, 'cctv_images')
-
-# SITE SETTINGS
