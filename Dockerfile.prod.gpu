@@ -1,0 +1,27 @@
+FROM nvidia/cuda:10.1-base
+
+ENV PYTHONNINBUFFERED 1
+
+RUN apt-get update
+RUN apt-get install wget -y
+
+RUN export DEBIAN_FRONTEND=noninteractice
+
+RUN wget https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64/nvidia-machine-learning-repo-ubuntu1804_1.0.0-1_amd64.deb
+RUN dpkg -i nvidia-machine-learning-repo-*.deb
+
+RUN apt-get install python3 python3-pip libpq-dev -y
+RUN apt-get install python-libnvinfer python3-libnvinfer libnvinfer6 libnvinfer-plugin6 -y
+
+# Create and set working directory for our source code
+RUN mkdir /backend -p -v
+WORKDIR /backend
+COPY . .
+
+# Copy so files
+RUN mkdir /usr/local/nvidia/ -p
+RUN ln -s /usr/lib/x86_64-linux-gnu /usr/local/nvidia/lib
+
+# Install requirements
+RUN pip3 install --upgrade pip
+RUN pip3 install -r requirements.txt

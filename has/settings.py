@@ -42,13 +42,12 @@ print('PRODUCTION: ', PRODUCTION_FLAG)
 if PRODUCTION_FLAG:
     DEBUG = False
     ALLOWED_HOSTS = [
-        'highwayanalytics.us',
-        'http://highwayanalytics.us',
-        'www.highwayanalytics.us',
+        '.highwayanalytics.us',
     ]
 else:
     DEBUG = True
     ALLOWED_HOSTS = ['*']
+
 
 
 # Application definition
@@ -176,8 +175,11 @@ CORS_ALLOW_METHODS = [
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 ML_MODEL_ROOT = os.path.join(BASE_DIR, 'ml_models')
 
-STATIC_ROOT = '/var/www/django-static'
-STATIC_URL = '/django-static/'
+STATIC_ROOT = '/static/'
+STATIC_URL = os.path.join(BASE_DIR, 'static/')
+
+print(STATIC_ROOT)
+print(STATIC_URL)
 
 IMAGE_ROOT = os.path.join(STATIC_ROOT, 'cctv_images')
 IMAGE_URL = os.path.join(STATIC_URL, 'cctv_images')
