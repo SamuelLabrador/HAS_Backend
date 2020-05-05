@@ -11,8 +11,13 @@ def cctv(request):
 def image(request):
 	uri = request.build_absolute_uri()
 	hash_start = uri.rfind('/')
-	file_hash = generate_hash(uri[hash_start + 1:])
+	print(hash_start)
 
-	path = decode_path(settings.IMAGE_URL, file_hash) + '.jpg'
+	print(uri[hash_start + 1:])
+	# file_hash = generate_hash(uri[hash_start + 1:])
+	file_hash = uri[hash_start + 1:]
+	# path = decode_path(settings.IMAGE_URL, file_hash) + '.jpg'
+	path = settings.IMAGE_URL + '/' + file_hash[0:2] + '/' + file_hash[2:4] + '/' + file_hash + '.jpg'
 	print(path)
 	return HttpResponseRedirect(path)
+
