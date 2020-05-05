@@ -37,6 +37,9 @@ if 'HAS_PRODUCTION' in os.environ:
 else: 
     PRODUCTION_FLAG = False
 
+if 'PIPELINE_FLAG' in os.environ:
+    PIPELINE_FLAG = bool(os.environ['PIPELINE_FLAG'])
+
 print('PRODUCTION: ', PRODUCTION_FLAG)
 # SECURITY WARNING: don't run with debug turned on in production!
 if PRODUCTION_FLAG:
@@ -69,6 +72,10 @@ INSTALLED_APPS = [
     'cctv',
     'corsheaders',
 ]
+
+if PIPELINE_FLAG:
+    INSTALLED_APPS += 'datapipeline'
+
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -123,7 +130,7 @@ if PRODUCTION_FLAG:
 	        'LOCATION': 'cache:11211',
 	    }
 	}
-    
+
 else:
     DATABASES = {
         'default': {
