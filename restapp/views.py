@@ -1,13 +1,15 @@
 from django.shortcuts import render
-from rest_framework import viewsets, filters
-from rest_framework.pagination import PageNumberPagination
-from django_filters.rest_framework import DjangoFilterBackend
-from .serializers import CCTVSerializers, SearchSerializers, VehicleSerializers
-from cctv.models import CCTV,Photo,Vehicle
-from .filters import CCTVFilter
 from django.http import JsonResponse
 from django.utils import timezone
 from django.conf import settings
+
+from rest_framework import viewsets, filters, generics
+from rest_framework.pagination import PageNumberPagination
+from django_filters.rest_framework import DjangoFilterBackend
+
+from .serializers import *
+from cctv.models import CCTV,Photo,Vehicle
+from .filters import CCTVFilter
 
 
 import string
@@ -24,7 +26,6 @@ class MediumResultsSetPagination(PageNumberPagination):
     page_size = 50
     page_size_query_param = 'page_size'
     max_page_size = 1000
-
 
 class CCTVViewSet(viewsets.ModelViewSet):
     serializer_class = CCTVSerializers
@@ -46,17 +47,21 @@ class CCTVViewSet(viewsets.ModelViewSet):
         return queryset.filter(county__exact=county_param)
 
 class SearchViewSet(viewsets.ModelViewSet):
-    queryset = Photo.objects.all().order_by('-timestamp')
-    serializer_class = SearchSerializers
+    queryset = Photo.objects.all().filter(vehicle_count__isnull=False).order_by('-timestamp')
+    serializer_class = PhotoSerializer
     filter_backends = (DjangoFilterBackend, filters.SearchFilter)
     search_fields = ['=cctv__id',]
     pagination_class = MediumResultsSetPagination
 
 class VehicleViewSet(viewsets.ModelViewSet):
+    """
+    Pass in the image file_name.
+    Return Corresponding bounding boxes.
+    """
     queryset = Vehicle.objects.all().order_by('-timestamp')
-    serializer_class = VehicleSerializers    
-    filter_backends = (DjangoFilterBackend, filters.SearchFilter)
-    filterset_fields = ['photo', 'cctv']
+    serializer_class = VehicleSerializers 
+    filter_backends = (filters.SearchFilter, )
+    search_fields = ['photo__file_name']
     pagination_class = MediumResultsSetPagination
 
 def graphJSON(request):
@@ -197,6 +202,7 @@ def vehiclesPerCCTV(request):
 		car_count: xxx
 	],
 '''
+
 def trafficData(request):
 	data = []
 	for cctv in CCTV.objects.all().filter(county__in=settings.VALID_COUNTIES):
@@ -204,12 +210,14 @@ def trafficData(request):
 		candiates = Photo.objects.all().filter(cctv__exact=cctv).order_by('-id')
 
 		if candiates.count() > 0:
-			count = Photo.objects.all().filter(cctv__exact=cctv).order_by('-timestamp')[1].vehicle_count
-			if count == None:
-				count = Photo.objects.all().filter(cctv__exact=cctv).order_by('-timestamp')[1].vehicle_count
+			photo = Photo.objects.all().filter(cctv__exact=cctv).order_by('-timestamp')[0]
+			if photo.vehicle_count == None:
+				photo = Photo.objects.all().filter(cctv__exact=cctv).order_by('-timestamp')[1]
 			data.append({
 				'cctv_id' : cctv.id,
-				'car_count' : count
+				'car_count' : photo.vehicle_count,
 			})
 	
 	return JsonResponse(data, safe=False)
+
+

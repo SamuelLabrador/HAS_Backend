@@ -15,4 +15,4 @@ class PhotoInline(admin.ModelAdmin):
 @admin.register(Vehicle)
 class VehicleInLine(admin.ModelAdmin):
 	model = Vehicle
-	list_display = ('id', 'cctv', 'photo', 'x_min', 'y_min','x_max', 'y_max', 'timestamp')
+	list_display = ('id', 'label', 'probability', 'cctv', 'photo', 'x_min', 'y_min','x_max', 'y_max', 'timestamp')

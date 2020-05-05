@@ -1,1 +1,0 @@
-sudo docker exec -it has_backend_backend_1 /bin/bash	

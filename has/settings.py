@@ -42,9 +42,7 @@ print('PRODUCTION: ', PRODUCTION_FLAG)
 if PRODUCTION_FLAG:
     DEBUG = False
     ALLOWED_HOSTS = [
-        'highwayanalytics.us',
-        'http://highwayanalytics.us',
-        'www.highwayanalytics.us',
+        '.highwayanalytics.us',
     ]
 else:
     DEBUG = True
@@ -53,6 +51,7 @@ else:
 FIXTURE_DIRS = [
     os.path.join(BASE_DIR, 'fixtures')
 ]
+
 
 
 # Application definition
@@ -69,7 +68,6 @@ INSTALLED_APPS = [
     'restapp',
     'cctv',
     'corsheaders',
-    'datapipeline',
 ]
 
 MIDDLEWARE = [
@@ -112,10 +110,10 @@ if PRODUCTION_FLAG:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'postgres',
-            'USER': 'postgres',
-            'PASSWORD' : 'password',
-            'HOST': 'db',
+            'NAME': os.environ['DB_NAME'],
+            'USER': os.environ['DB_USER'],
+            'PASSWORD' : os.environ['DB_PASSWORD'],
+            'HOST': os.environ['DB_HOST'],
             'PORT': 5432,
         }
     }
@@ -125,6 +123,7 @@ if PRODUCTION_FLAG:
 	        'LOCATION': 'cache:11211',
 	    }
 	}
+    
 else:
     DATABASES = {
         'default': {
@@ -174,6 +173,7 @@ VALID_COUNTIES = [
     'Riverside',
     'San Bernardino',
 ]
+
 # SESSION CONFIGURATION
 # SESSION_COOKIE_SECURE = True
 # CSRF_COOKIE_SECURE = True
@@ -191,8 +191,12 @@ CORS_ALLOW_METHODS = [
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 ML_MODEL_ROOT = os.path.join(BASE_DIR, 'ml_models')
 
-STATIC_ROOT = '/var/www/django-static'
-STATIC_URL = '/django-static/'
+STATIC_ROOT = '/static/'
+STATIC_URL = os.path.join(BASE_DIR, 'static/')
+
+print(STATIC_ROOT)
+print(STATIC_URL)
 
 IMAGE_ROOT = os.path.join(STATIC_ROOT, 'cctv_images')
 IMAGE_URL = os.path.join(STATIC_URL, 'cctv_images')
+

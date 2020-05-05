@@ -15,19 +15,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
-from rest_framework import routers
-from restapp.views import CCTVViewSet, SearchViewSet, VehicleViewSet
-import cctv
+# from restapp.views import CCTVViewSet, SearchViewSet
+# import cctv
 
-router = routers.DefaultRouter()
-router.register('cctv',CCTVViewSet)
-router.register('search',SearchViewSet,'search')
-router.register('vehicle',VehicleViewSet)
+    # path('api/', include(router.urls))    ,
 
 urlpatterns = [
-    path('api/', include(router.urls)),
     path('api/', include('restapp.urls')),
     path('admin/', admin.site.urls),
     path('image/', include('cctv.urls')),
 ]
+
+urlpatterns += staticfiles_urlpatterns()
