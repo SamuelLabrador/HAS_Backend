@@ -74,7 +74,7 @@ INSTALLED_APPS = [
 ]
 
 if PIPELINE_FLAG:
-    INSTALLED_APPS += 'datapipeline'
+    INSTALLED_APPS += ['datapipeline']
 
 
 MIDDLEWARE = [
