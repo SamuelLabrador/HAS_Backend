@@ -41,6 +41,7 @@ class Photo(models.Model):
 class Vehicle(models.Model):
 	cctv = models.ForeignKey(CCTV, null=True, on_delete=models.SET_NULL)
 	photo = models.ForeignKey(Photo, null=True, on_delete=models.SET_NULL)
+	label = models.CharField(max_length=255, null=True, blank=True)
 	
 	# Bounding Boxes
 	x_min = models.FloatField()

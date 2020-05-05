@@ -119,7 +119,7 @@ class Pipeline():
 				b = [x_max, y_max, x_min, y_min]
 
 				# Save to Database
-				if entity in [b'Car', b'Land Vehicle']:
+				if entity in [b'Car', b'Land Vehicle', b'Truck', b'Bus']:
 					count += 1
 					Vehicle.objects.create(
 						cctv=cctv_object,
@@ -128,6 +128,7 @@ class Pipeline():
 						y_min=y_min,
 						x_max=x_max,
 						y_max=y_max,
+						label=entity.decode()
 					)
 
 			image_object.vehicle_count = count
