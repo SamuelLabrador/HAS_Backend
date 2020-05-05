@@ -55,10 +55,7 @@ FIXTURE_DIRS = [
     os.path.join(BASE_DIR, 'fixtures')
 ]
 
-
-
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -75,7 +72,6 @@ INSTALLED_APPS = [
 
 if PIPELINE_FLAG:
     INSTALLED_APPS += ['datapipeline']
-
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -111,8 +107,6 @@ WSGI_APPLICATION = 'has.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
-
 if PRODUCTION_FLAG:
     DATABASES = {
         'default': {
@@ -198,7 +192,7 @@ CORS_ALLOW_METHODS = [
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 ML_MODEL_ROOT = os.path.join(BASE_DIR, 'ml_models')
 
-STATIC_ROOT = '/static/'
+STATIC_ROOT = '/django-static/'
 STATIC_URL = os.path.join(BASE_DIR, 'static/')
 
 print(STATIC_ROOT)

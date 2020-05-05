@@ -14,5 +14,5 @@ def image(request):
 	file_hash = generate_hash(uri[hash_start + 1:])
 
 	path = decode_path(settings.IMAGE_URL, file_hash) + '.jpg'
-
+	
 	return HttpResponseRedirect(path)
