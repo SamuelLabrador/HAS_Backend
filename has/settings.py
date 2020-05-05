@@ -199,5 +199,5 @@ print(STATIC_ROOT)
 print(STATIC_URL)
 
 IMAGE_ROOT = os.path.join(STATIC_ROOT, 'cctv_images')
-IMAGE_URL = os.path.join(STATIC_URL, 'cctv_images')
+IMAGE_URL = os.path.join(STATIC_ROOT, 'cctv_images')
 
