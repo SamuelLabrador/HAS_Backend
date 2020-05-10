@@ -59,6 +59,9 @@ class VehicleViewSet(viewsets.ModelViewSet):
     Return Corresponding bounding boxes.
     """
     queryset = Vehicle.objects.all().order_by('-timestamp')
+    def get_queryset(self):
+        return Vehicle.objects.all().order_by('-timestamp')
+
     serializer_class = VehicleSerializers 
     filter_backends = (filters.SearchFilter, )
     search_fields = ['photo__file_name']
