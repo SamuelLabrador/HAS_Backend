@@ -1,5 +1,5 @@
 from django.test import TestCase
-from rest_framework.test import APIRequestFactory
+# from rest_framework.test import APIRequestFactory
 from django.test import Client
 
 import json

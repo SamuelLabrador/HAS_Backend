@@ -37,15 +37,19 @@ if 'HAS_PRODUCTION' in os.environ:
 else: 
     PRODUCTION_FLAG = False
 
-if 'PIPELINE_FLAG' in os.environ:
+if PRODUCTION_FLAG and 'PIPELINE_FLAG' in os.environ:
     PIPELINE_FLAG = bool(os.environ['PIPELINE_FLAG'])
+else:
+    PIPELINE_FLAG = False
 
 print('PRODUCTION: ', PRODUCTION_FLAG)
+
 # SECURITY WARNING: don't run with debug turned on in production!
 if PRODUCTION_FLAG:
-    DEBUG = False
+    DEBUG = True
     ALLOWED_HOSTS = [
         '.highwayanalytics.us',
+        'localhost',
     ]
 else:
     DEBUG = True

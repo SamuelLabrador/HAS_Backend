@@ -9,6 +9,8 @@ import tensorflow_hub as hub
 import urllib.request
 import os
 
+from restapp.api_caching import *
+
 class Pipeline():
 	def __init__(self):
 		pass
@@ -17,6 +19,13 @@ class Pipeline():
 	def start(self):
 		saved_files = self.scrape_images()
 		self.classify_images(saved_files)
+
+		# CACHE THE APIS
+		getRouteVehicleCount(update=True)
+		getTrafficData(update=True)
+		getGraph(update=True)
+		getVehiclesPerHour(update=True)
+		getVehiclesPerHour(update=True)
 
 	# Scrapes images
 	# Indexes each image into the database
